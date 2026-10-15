@@ -20,7 +20,7 @@ export default function Sidebar() {
     <aside className="w-64 bg-white min-h-screen border-r border-orange-50 flex flex-col px-4 py-6">
       <Link to="/" className="flex items-center gap-2 mb-8 px-2">
         <span className="text-2xl">🛋️</span>
-        <span className="font-semibold text-orange-500 text-lg">Furniture</span>
+        <span className="font-semibold text-orange-500 text-lg cursor-pointer">Furniture</span>
       </Link>
 
       <nav className="flex-1 space-y-1">
@@ -31,7 +31,7 @@ export default function Sidebar() {
             className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition ${
               location.pathname === link.to
                 ? "bg-orange-500 text-white"
-                : "text-gray-600 hover:bg-orange-50"
+                : "text-gray-600 hover:bg-orange-50 cursor-pointer"
             }`}
           >
             <span>{link.icon}</span>
@@ -45,7 +45,7 @@ export default function Sidebar() {
           logout();
           navigate("/");
         }}
-        className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-red-500 hover:bg-red-50 transition"
+        className="flex items-center gap-3 px-4 py-3 rounded-xl cursor-pointer text-sm font-medium text-red-500 hover:bg-red-50 transition"
       >
         🚪 Logout
       </button>

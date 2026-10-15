@@ -40,10 +40,10 @@ export default function Signup() {
           <span className="font-semibold text-orange-500 text-xl">Furniture</span>
         </div>
 
-        <h2 className="text-2xl font-semibold text-gray-900 text-center mb-1">
+        <h2 className="text-2xl font-semibold text-gray-900 text-center mb-1 cursor-pointer">
           Create account
         </h2>
-        <p className="text-center text-gray-500 text-sm mb-6">
+        <p className="text-center text-gray-500 text-sm mb-6 cursor-pointer">
           Join us and start shopping
         </p>
 
@@ -108,7 +108,7 @@ export default function Signup() {
           <button
             type="submit"
             disabled={loading || success}
-            className="w-full py-3 bg-orange-500 text-white font-medium rounded-full hover:bg-orange-600 transition disabled:opacity-60"
+            className="w-full py-3 bg-orange-500 text-white cursor-pointer font-medium rounded-full hover:bg-orange-600 transition disabled:opacity-60"
           >
             {loading ? "Creating account..." : "Sign up"}
           </button>
@@ -116,7 +116,7 @@ export default function Signup() {
 
         <p className="text-center text-sm text-gray-500 mt-6">
           Already have an account?{" "}
-          <Link to="/login" className="text-orange-500 font-medium">
+          <Link to="/login" className="text-orange-500 font-medium cursor-pointer">
             Log in
           </Link>
         </p>

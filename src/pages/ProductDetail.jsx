@@ -82,14 +82,14 @@ export default function ProductDetail() {
                 />
                 <button
                   onClick={addToCart}
-                  className="px-6 py-3 bg-white border border-orange-400 text-orange-600 font-medium rounded-full hover:bg-orange-50 transition"
+                  className="px-6 py-3 bg-white border border-orange-400 cursor-pointer text-orange-600 font-medium rounded-full hover:bg-orange-50 transition"
                 >
                   Add to cart
                 </button>
                 <button
                   onClick={buyNow}
                   disabled={buying}
-                  className="px-6 py-3 bg-orange-500 text-white font-medium rounded-full hover:bg-orange-600 transition disabled:opacity-60"
+                  className="px-6 py-3 bg-orange-500 text-white font-medium cursor-pointer rounded-full hover:bg-orange-600 transition disabled:opacity-60"
                 >
                   {buying ? "Processing..." : "Buy now"}
                 </button>

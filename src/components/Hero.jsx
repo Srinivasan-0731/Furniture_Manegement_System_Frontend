@@ -35,7 +35,7 @@ export default function Hero() {
           </p>
           <Link
             to="/products"
-            className="inline-block mt-6 px-6 py-3 bg-orange-500 text-white font-medium rounded-full hover:bg-orange-600 transition"
+            className="inline-block mt-6 px-6 py-3 cursor-pointer bg-orange-500 text-white font-medium rounded-full hover:bg-orange-600 transition"
           >
             Shop now ↗
           </Link>

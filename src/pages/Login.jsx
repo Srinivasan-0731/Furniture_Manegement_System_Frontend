@@ -32,10 +32,10 @@ export default function Login() {
           <span className="font-semibold text-orange-500 text-xl">Furniture</span>
         </div>
 
-        <h2 className="text-2xl font-semibold text-gray-900 text-center mb-1">
+        <h2 className="text-2xl font-semibold text-gray-900 text-center mb-1 cursor-pointer">
           Welcome back
         </h2>
-        <p className="text-center text-gray-500 text-sm mb-6">
+        <p className="text-center text-gray-500 text-sm mb-6 cursor-pointer">
           Log in to continue
         </p>
 
@@ -83,7 +83,7 @@ export default function Login() {
 
         <p className="text-center text-sm text-gray-500 mt-6">
           Don't have an account?{" "}
-          <Link to="/signup" className="text-orange-500 font-medium">
+          <Link to="/signup" className="text-orange-500 font-medium cursor-pointer">
             Sign up
           </Link>
         </p>

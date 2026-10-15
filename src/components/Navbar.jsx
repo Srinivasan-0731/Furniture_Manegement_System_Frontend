@@ -138,13 +138,13 @@ export default function Navbar() {
                 <Link
                   to="/profile"
                   onClick={closeMenu}
-                  className="text-center px-4 py-2.5 text-sm font-medium rounded-full border border-orange-400 text-orange-600 hover:bg-orange-50 transition"
+                  className="text-center px-4 py-2.5 text-sm font-medium cursor-pointer rounded-full border border-orange-400 text-orange-600 hover:bg-orange-50 transition"
                 >
                   {user.name?.split(" ")[0] || "Profile"}
                 </Link>
                 <button
                   onClick={handleLogout}
-                  className="px-4 py-2.5 text-sm font-medium rounded-full bg-orange-500 text-white hover:bg-orange-600 transition"
+                  className="px-4 py-2.5 text-sm font-medium rounded-full cursor-pointer bg-orange-500 text-white hover:bg-orange-600 transition"
                 >
                   Logout
                 </button>
@@ -154,14 +154,14 @@ export default function Navbar() {
                 <Link
                   to="/login"
                   onClick={closeMenu}
-                  className="text-center px-5 py-2.5 text-sm font-medium rounded-full border border-orange-400 text-orange-600 hover:bg-orange-50 transition"
+                  className="text-center px-5 py-2.5 text-sm cursor-pointer font-medium rounded-full border border-orange-400 text-orange-600 hover:bg-orange-50 transition"
                 >
                   Log in
                 </Link>
                 <Link
                   to="/signup"
                   onClick={closeMenu}
-                  className="text-center px-5 py-2.5 text-sm font-medium rounded-full bg-orange-500 text-white hover:bg-orange-600 transition"
+                  className="text-center px-5 py-2.5 text-sm cursor-pointer font-medium rounded-full bg-orange-500 text-white hover:bg-orange-600 transition"
                 >
                   Sign up
                 </Link>

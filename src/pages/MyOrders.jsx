@@ -249,7 +249,7 @@ export default function MyOrders() {
                 <button
                   onClick={() => { onClose(); payNow(order); }}
                   disabled={payingId === order._id}
-                  className="flex-1 py-2.5 bg-orange-500 text-white rounded-full font-medium hover:bg-orange-600 transition disabled:opacity-60 text-sm"
+                  className="flex-1 py-2.5 bg-orange-500 text-white rounded-full cursor-pointer font-medium hover:bg-orange-600 transition disabled:opacity-60 text-sm"
                 >
                   {payingId === order._id ? "Opening..." : "Pay Now"}
                 </button>
@@ -258,7 +258,7 @@ export default function MyOrders() {
                 <button
                   onClick={() => cancelOrder(order._id)}
                   disabled={cancelling === order._id}
-                  className="flex-1 py-2.5 border border-red-300 text-red-500 rounded-full font-medium hover:bg-red-50 transition disabled:opacity-60 text-sm"
+                  className="flex-1 py-2.5 border border-red-300 text-red-500 cursor-pointer rounded-full font-medium hover:bg-red-50 transition disabled:opacity-60 text-sm"
                 >
                   {cancelling === order._id ? "Cancelling..." : "Cancel Order"}
                 </button>
@@ -311,7 +311,7 @@ export default function MyOrders() {
                       {order.orderStatus}
                     </span>
                     {isPending(order) && (
-                      <span className="px-3 py-1 rounded-full text-xs font-semibold bg-yellow-100 text-yellow-700">
+                      <span className="px-3 py-1 rounded-full text-xs font-semibold cursor-pointer bg-yellow-100 text-yellow-700">
                         Payment Pending
                       </span>
                     )}
@@ -330,7 +330,7 @@ export default function MyOrders() {
                     />
                   ))}
                   {order.items.length > 3 && (
-                    <div className="w-14 h-14 rounded-xl bg-orange-50 flex items-center justify-center text-xs text-orange-500 font-medium flex-shrink-0">
+                    <div className="w-14 h-14 rounded-xl bg-orange-50 cursor-pointer flex items-center justify-center text-xs text-orange-500 font-medium flex-shrink-0">
                       +{order.items.length - 3}
                     </div>
                   )}
@@ -345,7 +345,7 @@ export default function MyOrders() {
                       <button
                         onClick={() => payNow(order)}
                         disabled={payingId === order._id}
-                        className="px-4 py-2 bg-orange-500 text-white text-sm font-medium rounded-full hover:bg-orange-600 transition disabled:opacity-60"
+                        className="px-4 py-2 bg-orange-500 text-white text-sm font-medium rounded-full hover:bg-orange-600 transition disabled:opacity-60 cursor-pointer"
                       >
                         {payingId === order._id ? "Opening..." : "Pay Now"}
                       </button>
@@ -356,7 +356,7 @@ export default function MyOrders() {
                       <button
                         onClick={() => cancelOrder(order._id)}
                         disabled={cancelling === order._id}
-                        className="px-4 py-2 border border-red-300 text-red-500 text-sm font-medium rounded-full hover:bg-red-50 transition disabled:opacity-60"
+                        className="px-4 py-2 border border-red-300 text-red-500 text-sm font-medium rounded-full hover:bg-red-50 transition disabled:opacity-60 cursor-pointer"
                       >
                         {cancelling === order._id ? "Cancelling..." : "Cancel"}
                       </button>
@@ -365,7 +365,7 @@ export default function MyOrders() {
                     {/* View Details */}
                     <button
                       onClick={() => setSelected(order)}
-                      className="px-4 py-2 border border-orange-300 text-orange-500 text-sm font-medium rounded-full hover:bg-orange-50 transition"
+                      className="px-4 py-2 border border-orange-300 text-orange-500 text-sm font-medium rounded-full hover:bg-orange-50 transition cursor-pointer"
                     >
                       View Details
                     </button>

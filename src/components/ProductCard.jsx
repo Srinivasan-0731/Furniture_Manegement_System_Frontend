@@ -10,7 +10,7 @@ export default function ProductCard({ title, image, link = "#" }) {
         <h3 className="text-white text-lg font-semibold mb-3">{title}</h3>
         <a
           href={link}
-          className="inline-block bg-white text-orange-600 text-xs font-medium px-4 py-2 rounded-full"
+          className="inline-block bg-white cursor-pointer text-orange-600 text-xs font-medium px-4 py-2 rounded-full"
         >
           Explore more »
         </a>

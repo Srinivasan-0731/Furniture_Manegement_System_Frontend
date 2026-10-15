@@ -231,7 +231,7 @@ export default function Cart() {
             <p className="text-gray-400 text-lg mb-6">Your cart is empty</p>
             <Link
               to="/products"
-              className="px-6 py-3 bg-orange-500 text-white rounded-full hover:bg-orange-600 transition font-medium"
+              className="px-6 py-3 cursor-pointer bg-orange-500 text-white rounded-full hover:bg-orange-600 transition font-medium"
             >
               Shop Now
             </Link>
@@ -268,12 +268,12 @@ export default function Cart() {
                     <div className="flex items-center gap-2">
                       <button
                         onClick={() => updateQty(pid, item.quantity - 1)}
-                        className="w-8 h-8 rounded-full border border-gray-200 text-gray-600 hover:bg-orange-50 transition flex items-center justify-center font-medium"
+                        className="w-8 h-8 rounded-full border border-gray-200 text-gray-600 hover:bg-orange-50 transition flex items-center cursor-pointer justify-center font-medium"
                       >−</button>
                       <span className="w-6 text-center font-medium">{item.quantity}</span>
                       <button
                         onClick={() => updateQty(pid, item.quantity + 1)}
-                        className="w-8 h-8 rounded-full border border-gray-200 text-gray-600 hover:bg-orange-50 transition flex items-center justify-center font-medium"
+                        className="w-8 h-8 rounded-full border border-gray-200 text-gray-600 hover:bg-orange-50 transition flex items-center cursor-pointer justify-center font-medium"
                       >+</button>
                     </div>
 
@@ -282,7 +282,7 @@ export default function Cart() {
                     </p>
                     <button
                       onClick={() => removeItem(pid)}
-                      className="text-red-400 hover:text-red-600 ml-2 text-lg leading-none"
+                      className="text-red-400 hover:text-red-600 ml-2 text-lg leading-none cursor-pointer"
                     >✕</button>
                   </div>
                 );
@@ -308,7 +308,7 @@ export default function Cart() {
                     <span>Tax (18%)</span>
                     <span>₹{tax.toLocaleString("en-IN")}</span>
                   </div>
-                  <div className="flex justify-between font-bold text-gray-900 border-t border-gray-100 pt-3 mt-1 text-base">
+                  <div className="flex justify-between font-bold text-gray-900 border-t border-gray-100 pt-3 mt-1 text-base cursor-pointer">
                     <span>Total</span>
                     <span>₹{total.toLocaleString("en-IN")}</span>
                   </div>
@@ -317,7 +317,7 @@ export default function Cart() {
                 {!showCheckout && (
                   <button
                     onClick={() => { setShowCheckout(true); setOrderError(""); }}
-                    className="mt-5 w-full py-3 bg-orange-500 text-white font-medium rounded-full hover:bg-orange-600 transition"
+                    className="mt-5 w-full py-3 bg-orange-500 text-white font-medium rounded-full hover:bg-orange-600 transition cursor-pointer"
                   >
                     Proceed to Checkout
                   </button>
@@ -369,7 +369,7 @@ export default function Cart() {
                   <button
                     onClick={() => { setOrderError(""); placeOrder(); }}
                     disabled={placing || payLaterPlacing}
-                    className="w-full py-3 bg-orange-500 text-white font-medium rounded-full hover:bg-orange-600 transition disabled:opacity-60 flex items-center justify-center gap-2"
+                    className="w-full py-3 bg-orange-500 text-white font-medium rounded-full hover:bg-orange-600 transition disabled:opacity-60 flex items-center justify-center gap-2 cursor-pointer"
                   >
                     {placing ? (
                       <>
@@ -385,7 +385,7 @@ export default function Cart() {
                   <button
                     onClick={() => { setOrderError(""); payLater(); }}
                     disabled={placing || payLaterPlacing}
-                    className="w-full py-3 bg-white text-orange-500 font-medium rounded-full border border-orange-400 hover:bg-orange-50 transition disabled:opacity-60 flex items-center justify-center gap-2"
+                    className="w-full py-3 bg-white text-orange-500 font-medium rounded-full border border-orange-400 hover:bg-orange-50 transition disabled:opacity-60 flex items-center justify-center gap-2 cursor-pointer"
                   >
                     {payLaterPlacing ? (
                       <>
@@ -403,7 +403,7 @@ export default function Cart() {
                   {/* Back button */}
                   <button
                     onClick={() => { setShowCheckout(false); setOrderError(""); }}
-                    className="w-full py-2 text-sm text-gray-400 hover:text-gray-600 transition"
+                    className="w-full py-2 text-sm text-gray-400 hover:text-gray-600 transition cursor-pointer"
                   >
                     ← Back to cart
                   </button>

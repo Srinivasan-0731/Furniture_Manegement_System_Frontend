@@ -6,7 +6,7 @@ export default function Pagination({ page, totalPages, onPageChange }) {
       <button
         onClick={() => onPageChange(page - 1)}
         disabled={page <= 1}
-        className="px-3 py-1.5 rounded-full text-sm border border-gray-200 disabled:opacity-40"
+        className="px-3 py-1.5 rounded-full text-sm border border-gray-200 disabled:opacity-40 cursor-pointer"
       >
         Prev
       </button>
@@ -16,7 +16,7 @@ export default function Pagination({ page, totalPages, onPageChange }) {
           key={p}
           onClick={() => onPageChange(p)}
           className={`px-3 py-1.5 rounded-full text-sm font-medium ${
-            p === page ? "bg-orange-500 text-white" : "text-gray-600 hover:bg-orange-50"
+            p === page ? "bg-orange-500 text-white" : "text-gray-600 hover:bg-orange-50 cursor-pointer"
           }`}
         >
           {p}
@@ -26,7 +26,7 @@ export default function Pagination({ page, totalPages, onPageChange }) {
       <button
         onClick={() => onPageChange(page + 1)}
         disabled={page >= totalPages}
-        className="px-3 py-1.5 rounded-full text-sm border border-gray-200 disabled:opacity-40"
+        className="px-3 py-1.5 rounded-full text-sm border border-gray-200 disabled:opacity-40 cursor-pointer"
       >
         Next
       </button>

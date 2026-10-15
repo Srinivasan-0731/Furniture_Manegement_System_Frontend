@@ -62,7 +62,7 @@ export default function Profile() {
 
           <button
             type="submit"
-            className="w-full py-3 bg-orange-500 text-white font-medium rounded-full hover:bg-orange-600 transition"
+            className="w-full py-3 bg-orange-500 text-white cursor-pointer font-medium rounded-full hover:bg-orange-600 transition"
           >
             Save changes
           </button>

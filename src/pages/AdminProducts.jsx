@@ -81,7 +81,7 @@ export default function AdminProducts() {
           <h1 className="text-2xl font-semibold text-gray-900">Products</h1>
           <button
             onClick={openCreate}
-            className="px-5 py-2 bg-orange-500 text-white font-medium rounded-full hover:bg-orange-600 transition"
+            className="px-5 py-2 bg-orange-500 text-white font-medium cursor-pointer rounded-full hover:bg-orange-600 transition"
           >
             + Add Product
           </button>
@@ -115,7 +115,7 @@ export default function AdminProducts() {
                     <button onClick={() => openEdit(p)} className="text-orange-500 font-medium">
                       Edit
                     </button>
-                    <button onClick={() => handleDelete(p._id)} className="text-red-500 font-medium">
+                    <button onClick={() => handleDelete(p._id)} className="text-red-500 cursor-pointer font-medium">
                       Delete
                     </button>
                   </td>
@@ -151,7 +151,7 @@ export default function AdminProducts() {
             className="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-orange-400" />
           <textarea name="description" placeholder="Description" rows="3" value={form.description} onChange={handleChange}
             className="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-orange-400" />
-          <button type="submit" className="w-full py-3 bg-orange-500 text-white font-medium rounded-full hover:bg-orange-600 transition">
+          <button type="submit" className="w-full py-3 cursor-pointer bg-orange-500 text-white font-medium rounded-full hover:bg-orange-600 transition">
             {editingId ? "Update" : "Create"}
           </button>
         </form>
