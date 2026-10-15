@@ -4,7 +4,15 @@ import Footer from "../components/Footer";
 import api from "../utils/api";
 import { Link, useNavigate } from "react-router-dom";
 
-const RAZORPAY_KEY_ID = "rzp_test_T0FNBRLOck5CC6";
+const RAZORPAY_KEY_ID =
+  import.meta.env.VITE_RAZORPAY_KEY_ID || "rzp_test_To8LW2yWAG2yaQ";
+
+
+const BASE_URL =
+  import.meta.env.VITE_BASE_URL ||
+  (import.meta.env.VITE_API_URL || "").replace(/\/api\/?$/, "");
+const imgUrl = (src) =>
+  !src ? "" : src.startsWith("http") ? src : `${BASE_URL}${src}`;
 
 export default function Cart() {
   const [cart, setCart]                   = useState(null);
@@ -74,6 +82,15 @@ export default function Cart() {
       document.body.appendChild(script);
     });
 
+  // Payment cancel / fail aana: order already "pending"-la save aagirukku
+  // (backend cart clear pannidum), so My Orders-ku anuppuvom
+  const goToOrdersPending = (msg) => {
+    setPlacing(false);
+    setSuccessMsg(msg);
+    setSuccess(true);
+    setTimeout(() => navigate("/orders"), 2500);
+  };
+
   // ── PAY NOW ─────────────────────────────────────────────────
   const placeOrder = async () => {
     if (!validateAddress()) return;
@@ -87,9 +104,9 @@ export default function Cart() {
         return;
       }
 
+      // Amount anuppa vendaam, backend cart-la irundhu total calculate pannum
       const { data } = await api.post("/orders/razorpay/create", {
         shippingAddress: address,
-        amount: total,
       });
 
       const { razorpayOrderId, amount: orderAmount, currency, orderId } = data.data;
@@ -112,8 +129,12 @@ export default function Cart() {
             setSuccessMsg("Payment Successful! Order Confirmed 🎉");
             setSuccess(true);
             setTimeout(() => navigate("/orders"), 2000);
-          } catch {
-            setOrderError("Payment verification failed. Please contact support.");
+          } catch (err) {
+            console.error("Verify error:", err.response?.data || err.message);
+            setOrderError(
+              err.response?.data?.message ||
+                "Payment verification failed. Please contact support."
+            );
             setPlacing(false);
           }
         },
@@ -121,20 +142,25 @@ export default function Cart() {
         theme: { color: "#f97316" },
         modal: {
           ondismiss: function () {
-            setPlacing(false);
-            setOrderError("Payment cancelled. Please try again.");
+            goToOrdersPending(
+              "Payment cancelled. Order saved, pay anytime from My Orders 📦"
+            );
           },
         },
       };
 
       const rzp = new window.Razorpay(options);
       rzp.on("payment.failed", function () {
-        setOrderError("Payment failed. Please try again.");
-        setPlacing(false);
+        goToOrdersPending(
+          "Payment failed. Order saved, retry from My Orders 📦"
+        );
       });
       rzp.open();
     } catch (err) {
-      setOrderError(err.response?.data?.message || "Order failed. Please try again.");
+      console.error("Razorpay create error:", err.response?.data || err.message);
+      setOrderError(
+        err.response?.data?.message || err.message || "Order failed. Please try again."
+      );
       setPlacing(false);
     }
   };
@@ -150,7 +176,10 @@ export default function Cart() {
       setSuccess(true);
       setTimeout(() => navigate("/orders"), 2000);
     } catch (err) {
-      setOrderError(err.response?.data?.message || "Failed to save order. Please try again.");
+      console.error("Pay later error:", err.response?.data || err.message);
+      setOrderError(
+        err.response?.data?.message || "Failed to save order. Please try again."
+      );
     } finally {
       setPayLaterPlacing(false);
     }
@@ -159,7 +188,10 @@ export default function Cart() {
   // ── Price calculations ───────────────────────────────────────
   const items       = cart?.items || [];
   const itemsPrice  = items.reduce(
-    (sum, i) => sum + (i.price || i.product?.price || 0) * i.quantity, 0
+    (sum, i) =>
+      sum +
+      (i.price || i.product?.discountPrice || i.product?.price || 0) * i.quantity,
+    0
   );
   const shipping    = itemsPrice > 5000 ? 0 : 199;
   const tax         = parseFloat((itemsPrice * 0.18).toFixed(2));
@@ -178,7 +210,7 @@ export default function Cart() {
   // ── Success state ─────────────────────────────────────────────
   if (success) return (
     <div className="bg-orange-50/30 min-h-screen flex items-center justify-center">
-      <div className="text-center">
+      <div className="text-center px-6">
         <div className="text-6xl mb-4">🎉</div>
         <h2 className="text-2xl font-bold text-gray-900">{successMsg}</h2>
         <p className="text-gray-500 mt-2">Redirecting to your orders...</p>
@@ -212,9 +244,9 @@ export default function Cart() {
               {items.map((item) => {
                 const product = item.product || {};
                 const name    = item.name || product.name || "Product";
-                const image   = product.images?.[0] ||
+                const image   = imgUrl(product.images?.[0]) ||
                   "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=200&q=80";
-                const price   = item.price || product.price || 0;
+                const price   = item.price || product.discountPrice || product.price || 0;
                 const pid     = product._id;
 
                 return (

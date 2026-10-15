@@ -8,8 +8,14 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const stored = localStorage.getItem("user");
-    if (stored) setUser(JSON.parse(stored));
+    try {
+      const stored = localStorage.getItem("user");
+      if (stored) setUser(JSON.parse(stored));
+    } catch (err) {
+      // localStorage-la thappa data irundha clear pannidum
+      localStorage.removeItem("user");
+      localStorage.removeItem("token");
+    }
     setLoading(false);
   }, []);
 
@@ -24,7 +30,7 @@ export function AuthProvider({ children }) {
 
   const register = async (payload) => {
     const res = await api.post("/auth/register", payload);
-    // Do NOT auto-login here. User must log in manually after registration.
+    // Auto-login illa. Register pannitu manual-a login pannanum.
     return res.data;
   };
 

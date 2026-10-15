@@ -3,7 +3,17 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import api from "../utils/api";
 
-const RAZORPAY_KEY_ID = "rzp_test_T0FNBRLOck5CC6";
+const RAZORPAY_KEY_ID =
+  import.meta.env.VITE_RAZORPAY_KEY_ID || "rzp_test_To8LW2yWAG2yaQ";
+
+
+const BASE_URL =
+  import.meta.env.VITE_BASE_URL ||
+  (import.meta.env.VITE_API_URL || "").replace(/\/api\/?$/, "");
+const imgUrl = (src) =>
+  !src ? "" : src.startsWith("http") ? src : `${BASE_URL}${src}`;
+
+const FALLBACK_IMG = "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=80";
 
 const STATUS_STEPS = ["pending", "confirmed", "processing", "shipped", "delivered"];
 
@@ -29,10 +39,12 @@ export default function MyOrders() {
     setTimeout(() => setToast(""), 3000);
   };
 
+  // ── Fetch orders (cancelled orders list-la kaattaadhu) ────
   const fetchOrders = async () => {
     try {
       const res = await api.get("/orders/my");
-      setOrders(res.data.data || res.data || []);
+      const list = res.data.data || res.data || [];
+      setOrders(list.filter((o) => o.orderStatus !== "cancelled"));
     } catch {
       setOrders([]);
     } finally {
@@ -48,7 +60,7 @@ export default function MyOrders() {
     setCancelling(orderId);
     try {
       await api.patch(`/orders/${orderId}/cancel`);
-      // Remove cancelled order from list immediately — don't show it
+      // Cancel aana order-a list-la irundhu udane remove pannidum
       setOrders((prev) => prev.filter((o) => o._id !== orderId));
       if (selectedOrder?._id === orderId) setSelected(null);
       showToast("Order cancelled successfully.");
@@ -74,7 +86,11 @@ export default function MyOrders() {
     setPayingId(order._id);
     try {
       const ok = await loadRazorpayScript();
-      if (!ok) { showToast("Razorpay failed to load."); return; }
+      if (!ok) {
+        showToast("Razorpay failed to load.");
+        setPayingId(null);
+        return;
+      }
 
       const { data } = await api.post(`/orders/${order._id}/razorpay/create`);
       const { razorpayOrderId, amount, currency, orderId } = data.data;
@@ -97,8 +113,13 @@ export default function MyOrders() {
             showToast("Payment successful! Order confirmed 🎉");
             fetchOrders();
             if (selectedOrder?._id === order._id) setSelected(null);
-          } catch {
-            showToast("Payment verification failed. Contact support.");
+          } catch (err) {
+            showToast(
+              err.response?.data?.message ||
+                "Payment verification failed. Contact support."
+            );
+          } finally {
+            setPayingId(null);
           }
         },
         prefill: { contact: order.shippingAddress?.phone || "" },
@@ -118,6 +139,7 @@ export default function MyOrders() {
       });
       rzp.open();
     } catch (err) {
+      console.error("Pay now error:", err.response?.data || err.message);
       showToast(err.response?.data?.message || "Payment initiation failed.");
       setPayingId(null);
     }
@@ -127,6 +149,7 @@ export default function MyOrders() {
   const fmtDate = (d) =>
     new Date(d).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" });
 
+  // Pending / confirmed orders-a cancel panna mudiyum
   const canCancel = (o) => ["pending", "confirmed"].includes(o.orderStatus);
   const isPending = (o) => o.paymentStatus === "pending" && o.orderStatus !== "cancelled";
 
@@ -151,7 +174,7 @@ export default function MyOrders() {
               {order.orderStatus}
             </span>
 
-            {/* Progress tracker — only for non-cancelled */}
+            {/* Progress tracker */}
             {order.orderStatus !== "cancelled" && (
               <div className="relative flex items-center justify-between">
                 <div className="absolute left-0 right-0 top-3 h-0.5 bg-gray-200" />
@@ -178,7 +201,7 @@ export default function MyOrders() {
                 {order.items.map((item, i) => (
                   <div key={i} className="flex items-center gap-3">
                     <img
-                      src={item.image || "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=80"}
+                      src={imgUrl(item.image) || FALLBACK_IMG}
                       alt={item.name}
                       className="w-12 h-12 rounded-xl object-cover"
                     />
@@ -300,7 +323,7 @@ export default function MyOrders() {
                   {order.items.slice(0, 3).map((item, i) => (
                     <img
                       key={i}
-                      src={item.image || "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=80"}
+                      src={imgUrl(item.image) || FALLBACK_IMG}
                       alt={item.name}
                       title={item.name}
                       className="w-14 h-14 rounded-xl object-cover flex-shrink-0"
@@ -328,7 +351,7 @@ export default function MyOrders() {
                       </button>
                     )}
 
-                    {/* Cancel */}
+                    {/* Cancel (pending + confirmed rendukkum) */}
                     {canCancel(order) && (
                       <button
                         onClick={() => cancelOrder(order._id)}
